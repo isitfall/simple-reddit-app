@@ -14,6 +14,17 @@
     background: url("/assets/background/astronaut.jpg") center center / cover no-repeat;
   }
 
+  .loader {
+    fill: white;
+  }
+
+  .input-prefix-icon {
+    position: absolute;
+    top: 50%;
+    left: -40px;
+    transform: translateY(-50%);
+  }
+
   * {
     -ms-overflow-style: none;
     scrollbar-width: none;

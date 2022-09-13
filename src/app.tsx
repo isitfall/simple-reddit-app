@@ -20,10 +20,13 @@ import "./style.css";
 import { useAppDispatch, useAppSelector } from "./store/hooks";
 import { Container } from "./layout/container/container";
 import { List } from "./components/list/list";
+import { Loader } from "./components/common/loader/loader";
 
 export const App = () => {
   const dispatch = useAppDispatch();
   const searchResults = useAppSelector((state) => selectSearchResults(state));
+  const searchLoading = useAppSelector((state) => selectSearchLoading(state));
+
   const [search, setSearch] = useState("");
 
   const handleChange = (e: FormEvent<HTMLInputElement>) => {
@@ -43,6 +46,7 @@ export const App = () => {
     };
   }, [search, dispatch]);
 
+  /* <Loader className="loader animate-spin" /> */
   return (
     <AppLayout
       showSection={searchResults.length > 0}
@@ -53,6 +57,9 @@ export const App = () => {
           className="min-w-[25%]"
           value={search}
           handleChange={handleChange}
+          prefixIcon={
+            searchLoading ? <Loader className="loader animate-spin" /> : undefined
+          }
         />
       }
     >
