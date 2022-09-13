@@ -16,7 +16,7 @@ const stylesHandler = "style-loader";
 const config: Configuration = {
   mode: "production",
   output: {
-    publicPath: "/",
+    publicPath: "/public",
   },
   entry: "./src/index.tsx",
   module: {
