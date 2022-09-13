@@ -1,6 +1,8 @@
+import { Response } from "./../../types/search-result";
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { BaseSearchItem } from "../../types/search-result";
 import { mapSearchResponseToArray } from "../../utils/mapSearchResultToArray";
+import { replaceStrSpaces } from "../../utils/replaceStrSpaces";
 import { RootState } from "../store";
 
 interface SearchSliceState {
@@ -18,7 +20,7 @@ export const fetchSearchResults = createAsyncThunk(
   async (search: string): Promise<Response | never> => {
     try {
       const readableStream = await fetch(
-        `https://www.reddit.com/r/${search}.json?limit=9`,
+        `https://www.reddit.com/r/${replaceStrSpaces(search)}.json?limit=9`,
       );
       const data = await readableStream.json();
 
@@ -58,10 +60,15 @@ export const searchSlice = createSlice({
     });
     builder.addCase(
       fetchSearchResults.fulfilled,
-      (state: SearchSliceState, { payload }) => {
-        const mappedResponse = mapSearchResponseToArray(payload);
+      (state: SearchSliceState, { payload }: { payload: Response }) => {
+        if (payload.error) {
+          setSearchResultsAction(state, { payload: [], type: "" });
+        } else {
+          const mappedResponse = mapSearchResponseToArray(payload);
 
-        setSearchResultsAction(state, { payload: mappedResponse, type: "" });
+          setSearchResultsAction(state, { payload: mappedResponse, type: "" });
+        }
+
         disableLoadingAction(state);
       },
     );

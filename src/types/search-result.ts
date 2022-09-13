@@ -19,7 +19,12 @@ export interface ResponseData {
   modhash?: string;
 }
 
-export interface Response {
+export interface ResponseError {
+  error?: number;
+  message?: string;
+  reason?: string;
+}
+export interface Response extends ResponseError {
   kind: string;
   data: ResponseData;
 }
