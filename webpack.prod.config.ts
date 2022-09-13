@@ -14,7 +14,7 @@ interface Configuration extends WebpackConfiguration {
 const stylesHandler = "style-loader";
 
 const config: Configuration = {
-  mode: "development",
+  mode: "production",
   output: {
     publicPath: "/",
   },
