@@ -1,3 +1,4 @@
+import path from "path";
 import {
   Configuration as WebpackConfiguration,
   HotModuleReplacementPlugin,
@@ -15,7 +16,7 @@ const stylesHandler = "style-loader";
 const config: Configuration = {
   mode: "production",
   output: {
-    publicPath: "/",
+    path: path.join(__dirname, "dist"),
     filename: "main.js",
   },
   entry: "./src/index.tsx",
