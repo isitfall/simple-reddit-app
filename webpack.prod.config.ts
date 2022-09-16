@@ -15,7 +15,8 @@ const stylesHandler = "style-loader";
 const config: Configuration = {
   mode: "production",
   output: {
-    publicPath: "/simple-reddit-app/",
+    publicPath: "/",
+    filename: "main.js",
   },
   entry: "./src/index.tsx",
   module: {
