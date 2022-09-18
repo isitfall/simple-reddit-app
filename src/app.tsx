@@ -1,18 +1,14 @@
 import React, { useEffect, useState, FormEvent, useCallback } from "react";
 import { debounce } from "debounce";
 import {
-  enableLoading,
-  disableLoading,
-  setSearchResults,
   selectSearchResults,
   selectSearchLoading,
+  selectSearchLoadingMore,
   fetchSearchResults,
+  fetchMoreSearchResults,
+  selectGetMoreResultsKey,
+  setSearchResults,
 } from "./store/reducers/search";
-import {
-  enableShowResults,
-  disableShowResults,
-  selectShowResultsSection,
-} from "./store/reducers/layout";
 
 import { BaseInput } from "./components/common/form/input/input";
 import { AppLayout } from "./layout/app-layout/app-layout";
@@ -26,6 +22,8 @@ export const App = () => {
   const dispatch = useAppDispatch();
   const searchResults = useAppSelector((state) => selectSearchResults(state));
   const searchLoading = useAppSelector((state) => selectSearchLoading(state));
+  const searchLoadingMore = useAppSelector((state) => selectSearchLoadingMore(state));
+  const getMoreResultsKey = useAppSelector((state) => selectGetMoreResultsKey(state));
 
   const [search, setSearch] = useState("");
 
@@ -33,20 +31,31 @@ export const App = () => {
     setSearch(e.currentTarget.value);
   };
 
+  // const handleLoadMore = async (isIntersecting: boolean) => {
+  //   // console.log({ getMoreResultsKey, searchLoadingMore });
+  //   if (isIntersecting && getMoreResultsKey && !searchLoadingMore) {
+  //     console.log("RUNNING", search, getMoreResultsKey);
+  //     await dispatch(fetchMoreSearchResults({ search, after: getMoreResultsKey }));
+  //   }
+  // };
+
+  const handleLoadMore = useCallback(async () => {
+    await dispatch(fetchMoreSearchResults({ search, after: getMoreResultsKey }));
+  }, [dispatch, getMoreResultsKey, search]);
+
   useEffect(() => {
     const handler = debounce(
       (searchString: string) => dispatch(fetchSearchResults(searchString)),
       200,
     );
 
-    handler(search);
+    search.length > 2 ? handler(search) : dispatch(setSearchResults([]));
 
     return () => {
       handler.clear();
     };
   }, [search, dispatch]);
 
-  /* <Loader className="loader animate-spin" /> */
   return (
     <AppLayout
       showSection={searchResults.length > 0}
@@ -64,7 +73,16 @@ export const App = () => {
       }
     >
       <Container>
-        {searchResults.length > 0 ? <List items={searchResults} /> : <div />}
+        {searchResults.length > 0 ? (
+          <List
+            items={searchResults}
+            handleLoadMore={handleLoadMore}
+            loading={searchLoadingMore}
+            showButton={!!getMoreResultsKey}
+          />
+        ) : (
+          <div />
+        )}
       </Container>
     </AppLayout>
   );

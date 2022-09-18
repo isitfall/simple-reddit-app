@@ -1,7 +1,12 @@
+export type WithNull<T> = T | null;
+
+export type ResponseHasMoreDataMarker = WithNull<string>;
+
 export interface BaseSearchItem {
   id: string;
   title: string;
   url: string;
+  thumbnail?: string;
   [ken: string]: unknown;
 }
 
@@ -11,8 +16,8 @@ export interface SearchResult {
 }
 
 export interface ResponseData {
-  after?: string;
-  before?: string;
+  after: ResponseHasMoreDataMarker;
+  before: ResponseHasMoreDataMarker;
   children: SearchResult[];
   dist: number;
   geo_filter?: any;
