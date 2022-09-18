@@ -14,7 +14,8 @@ interface Configuration extends WebpackConfiguration {
 const stylesHandler = "style-loader";
 
 const config: Configuration = {
-  mode: "development",
+  mode: "production",
+  // mode: "development",
   output: {
     publicPath: "/",
   },
@@ -67,6 +68,23 @@ const config: Configuration = {
     hints: false,
     maxEntrypointSize: 512000,
     maxAssetSize: 512000,
+  },
+  optimization: {
+    moduleIds: "deterministic",
+    minimize: true,
+    runtimeChunk: {
+      name: (entrypoint: { name: string | number; [key: string]: any }) =>
+        `runtimechunk~${entrypoint.name}`,
+    },
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          name: "node_vendors",
+          test: /[\\/]node_modules[\\/]/,
+          chunks: "all",
+        },
+      },
+    },
   },
 };
 

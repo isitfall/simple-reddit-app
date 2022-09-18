@@ -61,6 +61,23 @@ const config: Configuration = {
     maxEntrypointSize: 512000,
     maxAssetSize: 512000,
   },
+  optimization: {
+    moduleIds: "deterministic",
+    minimize: true,
+    runtimeChunk: {
+      name: (entrypoint: { name: string | number; [key: string]: any }) =>
+        `runtimechunk~${entrypoint.name}`,
+    },
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          name: "node_vendors",
+          test: /[\\/]node_modules[\\/]/,
+          chunks: "all",
+        },
+      },
+    },
+  },
 };
 
 export default config;
