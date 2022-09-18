@@ -3,7 +3,7 @@ import { BaseSearchItem } from "../../../types/search-result";
 
 const placeholderUrl = "https://img.icons8.com/doodle/344/reddit--v4.png";
 
-const handleLoadError = ({ currentTarget }) => {
+const handleLoadError = ({ currentTarget }: React.SyntheticEvent<HTMLImageElement>) => {
   currentTarget.onerror = null;
   currentTarget.src = placeholderUrl;
 };
