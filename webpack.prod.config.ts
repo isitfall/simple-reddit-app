@@ -56,6 +56,11 @@ const config: Configuration = {
     new HotModuleReplacementPlugin(),
   ],
   devtool: "inline-source-map",
+  performance: {
+    hints: false,
+    maxEntrypointSize: 512000,
+    maxAssetSize: 512000,
+  },
 };
 
 export default config;
