@@ -16,7 +16,7 @@ const config: Configuration = {
   mode: "production",
   output: {
     publicPath: "/",
-    filename: "main.js",
+    filename: "[name].js",
   },
   entry: "./src/index.tsx",
   module: {

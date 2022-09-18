@@ -14,10 +14,10 @@ interface Configuration extends WebpackConfiguration {
 const stylesHandler = "style-loader";
 
 const config: Configuration = {
-  mode: "production",
-  // mode: "development",
+  mode: "development",
   output: {
     publicPath: "/",
+    filename: "[name].js",
   },
   entry: "./src/index.tsx",
   module: {
