@@ -2,7 +2,7 @@ import React, { FC, ReactElement } from "react";
 
 interface AppLayout {
   headerChildren: ReactElement;
-  children: ReactElement;
+  children?: ReactElement;
   showSection: boolean;
 }
 

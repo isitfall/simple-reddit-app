@@ -1,23 +1,17 @@
 import path from "path";
-import {
-  Configuration as WebpackConfiguration,
-  HotModuleReplacementPlugin,
-} from "webpack";
-import { Configuration as WebpackDevServerConfiguration } from "webpack-dev-server";
-import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
+import { Configuration as WebpackConfiguration, HotModuleReplacementPlugin } from "webpack";
+import { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server';
+import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 import HtmlWebpackPlugin from "html-webpack-plugin";
 
 interface Configuration extends WebpackConfiguration {
   devServer?: WebpackDevServerConfiguration;
 }
 
-const stylesHandler = "style-loader";
-
 const config: Configuration = {
   mode: "development",
   output: {
     publicPath: "/",
-    filename: "[name].js",
   },
   entry: "./src/index.tsx",
   module: {
@@ -38,11 +32,11 @@ const config: Configuration = {
       },
       {
         test: /\.css$/i,
-        use: [stylesHandler, "css-loader", "postcss-loader"],
+        use: ['style-loader', 'css-loader', 'postcss-loader'],
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
-        type: "asset",
+        type: 'asset',
       },
     ],
   },
@@ -62,29 +56,7 @@ const config: Configuration = {
     historyApiFallback: true,
     port: 4000,
     open: true,
-    hot: true,
-  },
-  performance: {
-    hints: false,
-    maxEntrypointSize: 512000,
-    maxAssetSize: 512000,
-  },
-  optimization: {
-    moduleIds: "deterministic",
-    minimize: true,
-    runtimeChunk: {
-      name: (entrypoint: { name: string | number; [key: string]: any }) =>
-        `runtimechunk~${entrypoint.name}`,
-    },
-    splitChunks: {
-      cacheGroups: {
-        vendor: {
-          name: "node_vendors",
-          test: /[\\/]node_modules[\\/]/,
-          chunks: "all",
-        },
-      },
-    },
+    hot: true
   },
 };
 
