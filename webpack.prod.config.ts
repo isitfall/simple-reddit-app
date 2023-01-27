@@ -1,4 +1,4 @@
-import {
+import webpack, {
   Configuration as WebpackConfiguration,
   HotModuleReplacementPlugin,
 } from "webpack";
@@ -54,6 +54,11 @@ const config: Configuration = {
       template: "src/index.html",
     }),
     new HotModuleReplacementPlugin(),
+    new webpack.DefinePlugin({
+      'process.env.REACT_APP_ID': JSON.stringify("uiKmwC5Q6cjpQa2qu-dgtA"),
+      'process.env.REACT_APP_SECRET': JSON.stringify("HyVxgvNNMgIY-qzyKSjBmayd8HO70Q"),
+      'process.env.REACT_APP_REDIRECT_URI': JSON.stringify("http://localhost:8080/auth/reddit/callback"),
+    }),
   ],
   devtool: "inline-source-map",
   performance: {
